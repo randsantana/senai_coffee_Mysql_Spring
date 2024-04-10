@@ -47,4 +47,15 @@ public class CoffeeController {
 
         return coffeeRepository.save(updateCoffee);
     }
+    //Método deletar coffee
+    @DeleteMapping(value="/deleteCoffee/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    //@PathVariable pega um valor passado junto a barra de endereço
+    public Coffee deleteCoffee(@PathVariable Long id){
+        //Verificamos se existe o café no banco de dados procurando o id
+        Coffee getCoffee = coffeeRepository.findById(id).orElseThrow();
+        //chamamos o método .delete e passamos o café a ser deletado
+        coffeeRepository.delete(getCoffee);
+        return getCoffee;
+    }
 }
