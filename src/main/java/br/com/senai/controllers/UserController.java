@@ -1,7 +1,7 @@
 package br.com.senai.controllers;
 
-import br.com.senai.models.Coffee;
-import br.com.senai.repositories.CoffeeRepository;
+import br.com.senai.models.Users;
+import br.com.senai.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -12,50 +12,50 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
     @Autowired
-    CoffeeRepository coffeeRepository;
+    UsersRepository usersRepository;
 
     @GetMapping(value = "/all",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Coffee> getAllCoffee(){
-        return coffeeRepository.findAll();
+    public List<Users> getAllUsers(){
+        return usersRepository.findAll();
     }
 
-    @PostMapping(value="/createCoffee",
+    @PostMapping(value="/createUsers",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Coffee createCoffee(@RequestBody Coffee coffee){
-        //Cria um novo objeto Coffee
-        Coffee newCoffee = new Coffee();
+    public Users createUsers(@RequestBody Users users){
+        //Cria um novo objeto Users
+        Users newUsers = new Users();
         //Seta as propriedades do Coffee
-        newCoffee.setName(coffee.getName());
-        newCoffee.setPrice(coffee.getPrice());
+        newUsers.setUsername(users.getUsername());
+        newUsers.setPassword(users.getPassword());
         //Chama o método save para salvar o objeto no banco de dados
-        return coffeeRepository.save(newCoffee);
+        return usersRepository.save(newUsers);
     }
 
-    @PutMapping(value="/updateCoffee",
+    @PutMapping(value="/updateUsers",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Coffee updateCoffee(@RequestBody Coffee coffee){
-        Coffee getCoffee = coffeeRepository
-                .findById(coffee.getId()).orElseThrow();
-        Coffee updateCoffee = new Coffee();
+    public Users updateCoffee(@RequestBody Users users){
+        Users getUser = usersRepository
+                .findById(users.getId()).orElseThrow();
+        Users updateUsers = new Users();
 
-        updateCoffee.setId(coffee.getId());
-        updateCoffee.setName(coffee.getName());
-        updateCoffee.setPrice(coffee.getPrice());
+        updateUsers.setId(users.getId());
+        updateUsers.setUsername(users.getUsername());
+        updateUsers.setPassword(users.getPassword());
 
-        return coffeeRepository.save(updateCoffee);
+        return usersRepository.save(updateUsers);
     }
     //Método deletar coffee
-    @DeleteMapping(value="/deleteCoffee/{id}",
+    @DeleteMapping(value="/deleteUsers/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     //@PathVariable pega um valor passado junto a barra de endereço
-    public Coffee deleteCoffee(@PathVariable Long id){
+    public Users deleteUsers(@PathVariable Long id){
         //Verificamos se existe o café no banco de dados procurando o id
-        Coffee getCoffee = coffeeRepository.findById(id).orElseThrow();
+        Users getUsers = usersRepository.findById(id).orElseThrow();
         //chamamos o método .delete e passamos o café a ser deletado
-        coffeeRepository.delete(getCoffee);
-        return getCoffee;
+        usersRepository.delete(getUsers);
+        return getUsers;
     }
 }
