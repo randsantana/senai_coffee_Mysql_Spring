@@ -5,14 +5,12 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
-
 @Getter
 @Setter
 @Entity
-@Table(name="coffee")
+@Table(name="barber")
 @EqualsAndHashCode(of="id")
-public class Coffee implements Serializable {
+public class Barber {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,7 +19,5 @@ public class Coffee implements Serializable {
     private String name;
 
     @Column(nullable = false)
-    private Double price;
-
-
+    private String img;
 }
